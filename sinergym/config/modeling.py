@@ -1,6 +1,7 @@
 """Class and utilities for backend modeling in Python with Sinergym (extra params, weather_variability, building model modification and files management)"""
 import json
 import os
+import os.path
 import random
 from copy import deepcopy
 from shutil import rmtree
@@ -72,8 +73,11 @@ class ModelJSON(object):
         # ----------------------- Transform filenames in paths ----------------------- #
 
         # JSON
-        self._json_path = os.path.join(
-            self.pkg_data_path, 'buildings', json_file)
+        if os.path.isabs(json_file):
+            self._json_path = json_file
+        else:
+            self._json_path = os.path.join(
+                self.pkg_data_path, 'buildings', json_file)
 
         # EPW
         self.weather_files = weather_files
